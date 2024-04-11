@@ -14,10 +14,12 @@ const Navbar = () => {
           borderRight0: 0,
         }}
         position="static"
-        elevation="0"
+        elevation={0}
       >
         <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button variant="outlined">Connect wallet</Button>
+          <Button sx={{ textTransform: "capitalize" }} variant="outlined">
+            Connect wallet
+          </Button>
         </Toolbar>
       </AppBar>
     </>
