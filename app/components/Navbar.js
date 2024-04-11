@@ -1,6 +1,7 @@
 import AppBar from "@mui/material/AppBar";
-import Button from "@mui/material/Button";
+
 import Toolbar from "@mui/material/Toolbar";
+import WalletConnect from "./WalletConnect";
 
 const Navbar = () => {
   return (
@@ -17,9 +18,7 @@ const Navbar = () => {
         elevation={0}
       >
         <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button sx={{ textTransform: "capitalize" }} variant="outlined">
-            Connect wallet
-          </Button>
+          <WalletConnect />
         </Toolbar>
       </AppBar>
     </>
