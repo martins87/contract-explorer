@@ -9,22 +9,28 @@ import CardContent from "@mui/material/CardContent";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { Contract, getDefaultProvider } from "ethers";
 
 import Navbar from "./components/Navbar";
+import Function from "./components/Function";
 
 export default function Home() {
+  const [fileName, setFileName] = useState("");
   const [contractAddress, setContractAddress] = useState("");
-  const [jsonContent, setJsonContent] = useState(null);
+  const [contractAbi, setContractAbi] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [functions, setFunctions] = useState([]);
 
   const handleInputChange = (e) => setContractAddress(e.target.value);
 
   const handleFileUpload = (e) => {
     const fileReader = new FileReader();
     fileReader.readAsText(e.target.files[0], "UTF-8");
+    setFileName(e.target.files[0].name);
 
     fileReader.onload = (e) => {
       try {
-        setJsonContent(JSON.parse(e.target.result));
+        setContractAbi(JSON.parse(e.target.result));
       } catch (error) {
         console.error("Error parsing JSON file:", error);
         // handle error here
@@ -32,9 +38,17 @@ export default function Home() {
     };
   };
 
-  const onLoadContract = () => {
-    console.log("JSON object:", jsonContent);
-    console.log("contract address:", contractAddress);
+  const onLoadContract = async () => {
+    let provider = getDefaultProvider(
+      "https://mainnet.infura.io/v3/88651f31c40747fe99468a85a1abcc26"
+    );
+    let instance = new Contract(contractAddress, contractAbi, provider);
+    setContract(instance);
+
+    let fragments = instance.interface.fragments;
+    console.log("fragments:", fragments);
+
+    setFunctions(fragments.filter((f) => f.type === "function"));
   };
 
   return (
@@ -46,7 +60,7 @@ export default function Home() {
         </Box>
         <Card>
           <CardContent>
-            <Box component="form">
+            <Box>
               <Typography variant="body1" sx={{ marginBottom: "8px" }}>
                 Please enter the Contract Address
               </Typography>
@@ -76,8 +90,23 @@ export default function Home() {
                   accept="json"
                 />
               </Button>
+              {fileName && (
+                <Typography
+                  variant="body1"
+                  sx={{ marginLeft: "8px", display: "inline" }}
+                >
+                  {fileName}
+                </Typography>
+              )}
             </Box>
-            {/* render json content here */}
+            {functions.length !== 0 &&
+              functions.map((f) => (
+                <Function
+                  key={"0x" + f.name}
+                  contract={contract}
+                  fragment={f}
+                />
+              ))}
           </CardContent>
         </Card>
         <Box sx={{ marginTop: "1rem", textAlign: "center" }}>
@@ -86,6 +115,7 @@ export default function Home() {
             variant="contained"
             component="label"
             onClick={onLoadContract}
+            disabled={contractAddress === "" && contractAbi === null}
           >
             Continue
           </Button>
