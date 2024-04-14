@@ -49,7 +49,7 @@ const Function = ({ contract, fragment }) => {
       {fragment.inputs.length === 0 ? (
         <NoParametersFunction value={value} returnType={returnType} />
       ) : (
-        <WithParametersFunction fragment={fragment} />
+        <WithParametersFunction contract={contract} fragment={fragment} />
       )}
     </Box>
   );

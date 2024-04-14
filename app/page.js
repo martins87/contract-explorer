@@ -46,7 +46,6 @@ export default function Home() {
 
     let fragments = instance.interface.fragments;
     setFunctions(fragments.filter((f) => f.type === "function"));
-    // console.log("fragments:", fragments);
   };
 
   return (
@@ -109,7 +108,7 @@ export default function Home() {
         </Card>
         <Box sx={{ marginTop: "1rem", textAlign: "center" }}>
           <Button
-            sx={{ background: "#0784c3", textTransform: "capitalize" }}
+            sx={{ background: "#0784C3", textTransform: "capitalize" }}
             variant="contained"
             component="label"
             onClick={onLoadContract}
