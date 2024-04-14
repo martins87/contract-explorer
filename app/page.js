@@ -1,4 +1,3 @@
-// import styles from "./page.module.css";
 "use client";
 
 import { useState } from "react";
@@ -46,9 +45,8 @@ export default function Home() {
     setContract(instance);
 
     let fragments = instance.interface.fragments;
-    console.log("fragments:", fragments);
-
     setFunctions(fragments.filter((f) => f.type === "function"));
+    // console.log("fragments:", fragments);
   };
 
   return (

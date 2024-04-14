@@ -1,23 +1,20 @@
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import NoParametersFunction from "./NoParametersFunction";
+import WithParametersFunction from "./WithParametersFunction";
 
 const Function = ({ contract, fragment }) => {
   const [value, setValue] = useState(null);
   const [returnType, setReturnType] = useState(null);
 
   useEffect(() => {
+    let type = fragment.outputs[0].type;
+    setReturnType(type);
+
     if (fragment.stateMutability === "view" && fragment.inputs.length === 0) {
-      console.log("function:", fragment.name);
-      console.log("fragment.outputs[0]", fragment.outputs[0]);
-
-      let type = fragment.outputs[0].type;
-      setReturnType(type);
-
       contract[fragment.name]().then((res) => {
-        console.log("return value:", res);
-
-        // format value if type is uint8 or uint256
+        // Format value if type is uint8 or uint256
         if (type === "uint8" || type === "uint256") {
           setValue(Number(res));
         } else {
@@ -32,7 +29,7 @@ const Function = ({ contract, fragment }) => {
       sx={{
         border: "1px solid #E9ECEF",
         borderRadius: "8px",
-        marginTop: "4px",
+        marginTop: "16px",
       }}
     >
       <Box
@@ -49,24 +46,10 @@ const Function = ({ contract, fragment }) => {
       >
         <Typography>{fragment.name}</Typography>
       </Box>
-      {fragment.stateMutability === "view" && (
-        <Box
-          sx={{
-            padding: "8px",
-            display: "flex",
-            gap: "4px",
-          }}
-        >
-          <Typography>{value}</Typography>
-          <Typography
-            sx={{
-              color: "#808080",
-              fontStyle: "italic",
-            }}
-          >
-            {returnType}
-          </Typography>
-        </Box>
+      {fragment.inputs.length === 0 ? (
+        <NoParametersFunction value={value} returnType={returnType} />
+      ) : (
+        <WithParametersFunction fragment={fragment} />
       )}
     </Box>
   );
