@@ -9,6 +9,7 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { Contract, getDefaultProvider } from "ethers";
+import eth_address from "ethereum-address";
 
 import Navbar from "./components/Navbar";
 import Function from "./components/Function";
@@ -19,8 +20,17 @@ export default function Home() {
   const [contractAbi, setContractAbi] = useState(null);
   const [contract, setContract] = useState(null);
   const [functions, setFunctions] = useState([]);
+  const [addressError, setAddressError] = useState("");
+  const [abiError, setAbiError] = useState("");
 
-  const handleInputChange = (e) => setContractAddress(e.target.value);
+  const handleInputChange = (e) => {
+    setContractAddress(e.target.value);
+    if (eth_address.isAddress(e.target.value)) {
+      setAddressError("");
+    } else {
+      setAddressError("This is not a valid ETH address");
+    }
+  };
 
   const handleFileUpload = (e) => {
     const fileReader = new FileReader();
@@ -30,9 +40,10 @@ export default function Home() {
     fileReader.onload = (e) => {
       try {
         setContractAbi(JSON.parse(e.target.result));
+        setAbiError("");
       } catch (error) {
         console.error("Error parsing JSON file:", error);
-        // handle error here
+        setAbiError("Not a valid JSON file");
       }
     };
   };
@@ -51,8 +62,8 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <Container sx={{ marginTop: "3rem" }} maxWidth="md">
-        <Box sx={{ margin: "1rem 0", textAlign: "center" }}>
+      <Container sx={{ marginTop: "44px" }} maxWidth="md">
+        <Box sx={{ margin: "16px 0", textAlign: "center" }}>
           <Typography variant="h6">Load Contract</Typography>
         </Box>
         <Card>
@@ -69,13 +80,18 @@ export default function Home() {
                 onChange={handleInputChange}
                 fullWidth
               />
+              {addressError.length !== 0 && (
+                <Typography variant="body2" sx={{ color: "#b42d35" }}>
+                  {addressError}
+                </Typography>
+              )}
             </Box>
-            <Box sx={{ marginTop: "2rem" }}>
+            <Box sx={{ marginTop: "32px" }}>
               <Typography variant="body1" sx={{ marginBottom: "8px" }}>
                 Verify & Publish Contract Source Code Upload JSON ABI File
               </Typography>
               <Button
-                sx={{ background: "#0784c3", textTransform: "capitalize" }}
+                sx={{ background: "#0784C3", textTransform: "capitalize" }}
                 variant="contained"
                 component="label"
               >
@@ -96,6 +112,11 @@ export default function Home() {
                 </Typography>
               )}
             </Box>
+            {abiError.length !== 0 && (
+              <Typography variant="body2" sx={{ color: "#b42d35" }}>
+                {abiError}
+              </Typography>
+            )}
             {functions.length !== 0 &&
               functions.map((f) => (
                 <Function
@@ -106,13 +127,23 @@ export default function Home() {
               ))}
           </CardContent>
         </Card>
-        <Box sx={{ marginTop: "1rem", textAlign: "center" }}>
+        <Box
+          sx={{
+            marginTop: "16px",
+            textAlign: "center",
+          }}
+        >
           <Button
             sx={{ background: "#0784C3", textTransform: "capitalize" }}
             variant="contained"
             component="label"
             onClick={onLoadContract}
-            disabled={contractAddress === "" && contractAbi === null}
+            disabled={
+              contractAddress.length === 0 ||
+              contractAbi === null ||
+              addressError.length !== 0 ||
+              abiError.length !== 0
+            }
           >
             Continue
           </Button>

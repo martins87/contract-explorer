@@ -25,7 +25,7 @@ const WalletConnect = () => {
           sx={{
             borderRadius: "4px",
             border: "1px solid #0784c3",
-            height: "2rem",
+            height: "32px",
             padding: "4px",
             display: "flex",
             justifyItems: "center",
