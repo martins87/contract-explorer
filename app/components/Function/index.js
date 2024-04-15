@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import NoParametersFunction from "./NoParametersFunction";
@@ -32,25 +35,65 @@ const Function = ({ contract, fragment }) => {
         marginTop: "16px",
       }}
     >
-      <Box
+      <Accordion
         sx={{
-          background: "#F2F5F6",
-          padding: "8px",
-          border: "1px solid #E9ECEF",
-          borderLeft: 0,
-          borderRight: 0,
-          borderTop: 0,
-          borderTopLeftRadius: "8px",
-          borderTopRightRadius: "8px",
+          // "& .MuiPaper-root": {
+          //   height: "0px",
+          //   padding: "0px",
+          //   margin: "0px",
+          //   height: "auto",
+          // },
+          // "& .MuiPaperElevation-root": {
+          //   height: "auto",
+          //   padding: "0px",
+          //   margin: "0px",
+          //   height: "auto",
+          // },
+          // "& .MuiAccordion-root": {
+          //   height: "0px",
+          //   padding: "0px",
+          //   margin: "0px",
+          //   height: "38px",
+          // },
+          "& .MuiAccordionSummary-root": {
+            height: "0px",
+            padding: "0px",
+            margin: "0px",
+          },
         }}
       >
-        <Typography>{fragment.name}</Typography>
-      </Box>
-      {fragment.inputs.length === 0 ? (
-        <NoParametersFunction value={value} returnType={returnType} />
-      ) : (
-        <WithParametersFunction contract={contract} fragment={fragment} />
-      )}
+        <AccordionSummary
+          sx={{
+            paddingLeft: "0px",
+            paddingRight: "0px",
+            margin: "0px",
+          }}
+        >
+          <Box
+            sx={{
+              background: "#F2F5F6",
+              padding: "8px",
+              border: "1px solid #E9ECEF",
+              borderLeft: 0,
+              borderRight: 0,
+              borderTop: 0,
+              borderTopLeftRadius: "8px",
+              borderTopRightRadius: "8px",
+              width: "100%",
+              height: "24px",
+            }}
+          >
+            <Typography>{fragment.name}</Typography>
+          </Box>
+        </AccordionSummary>
+        <AccordionDetails>
+          {fragment.inputs.length === 0 ? (
+            <NoParametersFunction value={value} returnType={returnType} />
+          ) : (
+            <WithParametersFunction contract={contract} fragment={fragment} />
+          )}
+        </AccordionDetails>
+      </Accordion>
     </Box>
   );
 };
