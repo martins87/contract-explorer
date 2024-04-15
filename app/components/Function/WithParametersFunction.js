@@ -1,9 +1,11 @@
 import { useEffect, useState, Fragment } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
+import eth_address from "ethereum-address";
+
+import Input from "../Input";
 
 const WithParametersFunction = ({ contract, fragment }) => {
   const [parameters, setParameters] = useState([]);
@@ -20,20 +22,43 @@ const WithParametersFunction = ({ contract, fragment }) => {
     setParameters(paramsArr);
   }, []);
 
-  const handleInputChange = (e, paramName) => {
+  const handleInputChange = (e, param) => {
+    let value = e.target.value;
+    let paramName = param.name;
+    let paramType = param.type;
     let paramsArr = [];
+    let errorMessage = "";
+
+    if ((paramType === "uint256" || paramType === "uint8") && isNaN(value)) {
+      errorMessage = "Invalid input type";
+    } else if (
+      paramType === "address" &&
+      !eth_address.isAddress(e.target.value)
+    ) {
+      errorMessage = "Invalid input type";
+    }
 
     parameters.map((parameter) => {
       let paramObj = parameter;
 
       if (parameter.name === paramName) {
-        paramObj = { ...parameter, value: e.target.value };
+        paramObj = {
+          ...parameter,
+          value: e.target.value,
+          errorMessage: errorMessage,
+        };
       }
 
       paramsArr.push(paramObj);
     });
 
     setParameters(paramsArr);
+  };
+
+  const getErrorMessage = (inputName) => {
+    let param = parameters.filter((p) => p.name === inputName)[0];
+
+    return param?.errorMessage;
   };
 
   const handleQuery = () => {
@@ -54,20 +79,12 @@ const WithParametersFunction = ({ contract, fragment }) => {
     <Box sx={{ padding: "16px" }}>
       {fragment.inputs.map((input) => (
         <Fragment key={input.name}>
-          <Typography variant="body1" sx={{ marginBottom: "8px" }}>
-            {input.name}
-          </Typography>
-          <TextField
-            sx={{
-              borderRadius: "4px",
-              marginBottom: "8px",
-            }}
-            key={input.name}
-            variant="outlined"
+          <Input
+            label={input.name}
             placeholder={`${input.name} (${input.type})`}
             value={null}
-            onChange={(e) => handleInputChange(e, input.name)}
-            fullWidth
+            handleOnChange={(e) => handleInputChange(e, input)}
+            errorMessage={getErrorMessage(input.name)}
           />
         </Fragment>
       ))}

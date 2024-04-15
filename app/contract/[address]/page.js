@@ -10,7 +10,7 @@ import Function from "@/app/components/Function";
 import { Typography } from "@mui/material";
 
 const Contract = () => {
-  const { instance, address, abi } = useContract((state) => state.contract);
+  const instance = useContract((state) => state.contract.instance);
   const [functions, setFunctions] = useState([]);
 
   useEffect(() => {

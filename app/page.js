@@ -7,12 +7,12 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Container from "@mui/material/Container";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { Contract, getDefaultProvider } from "ethers";
 import eth_address from "ethereum-address";
 
 import { useContract } from "./store/contract";
+import Input from "./components/Input";
 
 export default function Home() {
   const provider = getDefaultProvider(
@@ -70,27 +70,13 @@ export default function Home() {
         </Box>
         <Card>
           <CardContent>
-            <Box>
-              <Typography variant="body1" sx={{ marginBottom: "8px" }}>
-                Please enter the Contract Address
-              </Typography>
-              <TextField
-                id="outlined"
-                variant="outlined"
-                placeholder="0x..."
-                value={contractAddress}
-                onChange={handleInputChange}
-                fullWidth
-              />
-              {addressError.length !== 0 && (
-                <Typography
-                  variant="body2"
-                  sx={{ color: "#B42D35", marginTop: "4px" }}
-                >
-                  {addressError}
-                </Typography>
-              )}
-            </Box>
+            <Input
+              label="Please enter the Contract Address"
+              placeholder="0x..."
+              value={contractAddress}
+              handleOnChange={handleInputChange}
+              errorMessage={addressError}
+            />
             <Box sx={{ marginTop: "32px" }}>
               <Typography variant="body1" sx={{ marginBottom: "8px" }}>
                 Verify & Publish Contract Source Code Upload JSON ABI File
