@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useState } from "react";
+import { useRouter } from "next/navigation";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -11,23 +12,28 @@ import Typography from "@mui/material/Typography";
 import { Contract, getDefaultProvider } from "ethers";
 import eth_address from "ethereum-address";
 
-import Function from "./components/Function";
+import { useContract } from "./store/contract";
 
 export default function Home() {
+  const provider = getDefaultProvider(
+    "https://mainnet.infura.io/v3/88651f31c40747fe99468a85a1abcc26"
+  );
   const [fileName, setFileName] = useState("");
   const [contractAddress, setContractAddress] = useState("");
   const [contractAbi, setContractAbi] = useState(null);
-  const [contract, setContract] = useState(null);
-  const [functions, setFunctions] = useState([]);
   const [addressError, setAddressError] = useState("");
   const [abiError, setAbiError] = useState("");
+  const router = useRouter();
+  const { setInstance, setAddress, setAbi } = useContract();
 
   const handleInputChange = (e) => {
     setContractAddress(e.target.value);
+
     if (eth_address.isAddress(e.target.value)) {
       setAddressError("");
+      setAddress(e.target.value);
     } else {
-      setAddressError("This is not a valid ETH address");
+      setAddressError("Invalid ETH address");
     }
   };
 
@@ -39,23 +45,21 @@ export default function Home() {
     fileReader.onload = (e) => {
       try {
         setContractAbi(JSON.parse(e.target.result));
+        setAbi(JSON.parse(e.target.result));
         setAbiError("");
       } catch (error) {
         console.error("Error parsing JSON file:", error);
-        setAbiError("Not a valid JSON file");
+        setAbiError("Invalid JSON file");
+        setAbi(null);
       }
     };
   };
 
   const onLoadContract = async () => {
-    let provider = getDefaultProvider(
-      "https://mainnet.infura.io/v3/88651f31c40747fe99468a85a1abcc26"
-    );
     let instance = new Contract(contractAddress, contractAbi, provider);
-    setContract(instance);
+    setInstance(instance);
 
-    let fragments = instance.interface.fragments;
-    setFunctions(fragments.filter((f) => f.type === "function"));
+    router.push(`/contract/${contractAddress}`);
   };
 
   return (
@@ -123,14 +127,6 @@ export default function Home() {
                 {abiError}
               </Typography>
             )}
-            {functions.length !== 0 &&
-              functions.map((f) => (
-                <Function
-                  key={"0x" + f.name}
-                  contract={contract}
-                  fragment={f}
-                />
-              ))}
           </CardContent>
         </Card>
         <Box
