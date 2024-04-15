@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useEffect, useState } from "react";
+import { redirect } from "next/navigation";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Container from "@mui/material/Container";
@@ -14,6 +15,10 @@ const Contract = () => {
   const [functions, setFunctions] = useState([]);
 
   useEffect(() => {
+    if (!instance) {
+      redirect("/");
+    }
+
     let fragments = instance.interface.fragments;
     setFunctions(fragments.filter((f) => f.type === "function"));
   }, []);
