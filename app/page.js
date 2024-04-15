@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -11,7 +11,6 @@ import Typography from "@mui/material/Typography";
 import { Contract, getDefaultProvider } from "ethers";
 import eth_address from "ethereum-address";
 
-import Navbar from "./components/Navbar";
 import Function from "./components/Function";
 
 export default function Home() {
@@ -60,8 +59,7 @@ export default function Home() {
   };
 
   return (
-    <>
-      <Navbar />
+    <Fragment>
       <Container sx={{ marginTop: "44px" }} maxWidth="md">
         <Box sx={{ margin: "16px 0", textAlign: "center" }}>
           <Typography variant="h6">Load Contract</Typography>
@@ -81,7 +79,10 @@ export default function Home() {
                 fullWidth
               />
               {addressError.length !== 0 && (
-                <Typography variant="body2" sx={{ color: "#b42d35" }}>
+                <Typography
+                  variant="body2"
+                  sx={{ color: "#B42D35", marginTop: "4px" }}
+                >
                   {addressError}
                 </Typography>
               )}
@@ -90,30 +91,35 @@ export default function Home() {
               <Typography variant="body1" sx={{ marginBottom: "8px" }}>
                 Verify & Publish Contract Source Code Upload JSON ABI File
               </Typography>
-              <Button
-                sx={{ background: "#0784C3", textTransform: "capitalize" }}
-                variant="contained"
-                component="label"
-              >
-                Browse
-                <input
-                  type="file"
-                  hidden
-                  onChange={handleFileUpload}
-                  accept="json"
-                />
-              </Button>
-              {fileName && (
-                <Typography
-                  variant="body1"
-                  sx={{ marginLeft: "8px", display: "inline" }}
+              <Box>
+                <Button
+                  sx={{ background: "#0784C3", textTransform: "capitalize" }}
+                  variant="contained"
+                  component="label"
                 >
-                  {fileName}
-                </Typography>
-              )}
+                  Browse
+                  <input
+                    type="file"
+                    hidden
+                    onChange={handleFileUpload}
+                    accept="json"
+                  />
+                </Button>
+                {fileName && (
+                  <Typography
+                    sx={{ display: "inline", marginLeft: "8px" }}
+                    variant="body1"
+                  >
+                    {fileName}
+                  </Typography>
+                )}
+              </Box>
             </Box>
             {abiError.length !== 0 && (
-              <Typography variant="body2" sx={{ color: "#b42d35" }}>
+              <Typography
+                variant="body2"
+                sx={{ color: "#B42D35", marginTop: "4px" }}
+              >
                 {abiError}
               </Typography>
             )}
@@ -149,6 +155,6 @@ export default function Home() {
           </Button>
         </Box>
       </Container>
-    </>
+    </Fragment>
   );
 }

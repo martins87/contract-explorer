@@ -1,11 +1,13 @@
-import AppBar from "@mui/material/AppBar";
+"use client";
 
+import { Fragment } from "react";
+import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import WalletConnect from "./WalletConnect";
 
 const Navbar = () => {
   return (
-    <>
+    <Fragment>
       <AppBar
         sx={{
           background: "#fff",
@@ -21,7 +23,7 @@ const Navbar = () => {
           <WalletConnect />
         </Toolbar>
       </AppBar>
-    </>
+    </Fragment>
   );
 };
 

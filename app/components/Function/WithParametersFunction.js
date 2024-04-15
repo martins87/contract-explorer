@@ -76,7 +76,7 @@ const WithParametersFunction = ({ contract, fragment }) => {
           sx={{
             background: "#F2F5F6",
             textTransform: "capitalize",
-            color: "#000",
+            color: "#000000",
             "&:hover": { backgroundColor: "#D3D4D5" },
           }}
           variant="contained"
