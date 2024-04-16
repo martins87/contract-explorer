@@ -18,7 +18,6 @@ export default function Home() {
   const provider = getDefaultProvider(
     `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`
   );
-  console.log("provider:", provider);
   const [fileName, setFileName] = useState("");
   const [contractAddress, setContractAddress] = useState("");
   const [contractAbi, setContractAbi] = useState(null);

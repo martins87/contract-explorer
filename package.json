@@ -11,6 +11,8 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@metamask/sdk-react": "^0.18.4",
+    "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "ethereum-address": "^0.0.4",
     "ethers": "^6.11.1",
