@@ -16,8 +16,9 @@ import Input from "./components/Input";
 
 export default function Home() {
   const provider = getDefaultProvider(
-    "https://mainnet.infura.io/v3/88651f31c40747fe99468a85a1abcc26"
+    `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`
   );
+  console.log("provider:", provider);
   const [fileName, setFileName] = useState("");
   const [contractAddress, setContractAddress] = useState("");
   const [contractAbi, setContractAbi] = useState(null);
