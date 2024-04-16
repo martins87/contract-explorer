@@ -16,7 +16,7 @@ Once the user inputs the contract's address and ABI (via a JSON file) he/she can
 
 ### Installing
 
-Run in the project directory:
+Clone the repository and run in the project directory:
 
 `npm install`
 
