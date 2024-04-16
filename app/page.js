@@ -56,6 +56,12 @@ export default function Home() {
   };
 
   const onLoadContract = async () => {
+    const code = await provider.getCode(contractAddress);
+    if (code === "0x") {
+      setAddressError("Not a contract address");
+      return;
+    }
+
     let instance = new Contract(contractAddress, contractAbi, provider);
     setInstance(instance);
 
