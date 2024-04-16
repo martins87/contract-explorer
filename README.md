@@ -37,14 +37,7 @@ Run:
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## 4. Built With
-
-- [React](https://reactjs.org/)
-- [Typescript](https://www.typescriptlang.org/)
-- [Material UI](https://mui.com/)
-- [Zustand](https://github.com/pmndrs/zustand)
-
-## 5. Possible improvements
+## 4. Possible improvements
 
 ### What I would improve if I had more time
 
