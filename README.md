@@ -20,7 +20,7 @@ Clone the repository and run in the project directory:
 
 `npm install`
 
-Add an Infura key to the file next.config.js as follows:
+In the root directory create a next.config.js file and add an Infura key as follows:
 
 ```
 module.exports = {
@@ -48,9 +48,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### What I would improve if I had more time
 
-- Write functions (only a signer missing to have it owrking)
+- Write functions (only a signer missing to have it working)
 - Different Tabs for read and write contract functions
-- Pages and components more modular
+- More options for connection with web3 wallets (e.g. Coinbase Wallet)
+- More modular Pages and components
 - Overall application styling
 - Robust error handling
 - Exception handling when interacting with contract
